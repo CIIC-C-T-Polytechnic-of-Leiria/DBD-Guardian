@@ -9,8 +9,10 @@
 A Big Data Cybersecurity Analytics System Architeture Based on Distributed Big Data Query Engines
 
 <div align="center">
-<img src="assets/EsquemaArqProposta.png" width="1000px"/>
-<p>DBD_Guardian Architeture Proposal</p>
+  <div style="max-width: 400px;">
+    <img src="assets/EsquemaArqProposta.png" width="60%" />
+  </div>
+  <p>DBD-Guardian Architeture Proposal</p>
 </div>
 
 ### What is DBD-Guardian?
@@ -26,3 +28,6 @@ By enabling data analysis from different sources and applying knowledge extracti
 But Big Data Cybersecurity Analytics have proper characteristics and requirements, like a wide range of heterogeneous data sources, the processing of data with privacy requirements, and the need for near real-time conclusions. BDCA systems that can respond to all these challenges are still hard to find nowadays.
 
 In this paper, we review existing solutions for big data cybersecurity analytics. We discuss tools, technologies, applications, and current challenges. We then discuss a proposal for a BDCA system architecture, the “DBD-Guardian”, designed to address the identified challenges. Finally, our implementation and testing of the DBD-Guardian architecture will be presented and discussed. 
+
+# Acknowledgements
+This work is part of the project Security Analytics and partially funded by national funds through FCT – Fundação para a Ciência e a Tecnologia, I.P., under the Scientific Employment Stimulus - Institutional Call - CEECINST/00051/2018 and in the context of the project UIDB/04524/2020.
