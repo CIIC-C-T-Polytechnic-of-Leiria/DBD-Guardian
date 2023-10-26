@@ -20,6 +20,9 @@ Distributed Big Data Guardian is a Big Data Cybersecurity architetural proposal 
 
 This solution is highly customizable, enabling users to adapt its functionality to suit their specific needs, allowing DBD-Guardian to be effectively implemented in a wide range of use cases. 
 
+### DBD-Guardian Implementation
+To evaluate the capabilities of our proposal, we implemented DBD-Guardian using the Trino distributed query engine. We selected the Trino Python Client as the query engine client. The user interface (UI) was created with Vue.js, and all other application's modules were developed using the Flask framework.
+
 ### DBD-Guardian's Paper Abstract
 As computers, the Internet of Things (IoT), and telecommunications technologies become commonplace in everyday life and systems become interconnected via the Internet, cybersecurity has turned out to be a relevant and challenging issue. Several different technologies and implementations have come up in response to cope with the growing challenges in the world of cybersecurity. One of these solutions is Big Data Cybersecurity Analytics, which results from the fusion between two distinct areas, Cybersecurity and Big Data Analytics. 
 
