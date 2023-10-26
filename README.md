@@ -1,3 +1,7 @@
+<p align="center">
+<img src="assets/CIIC_CT_logo.png" width="1000px"/>
+</p>
+
 # DBD-Guardian
 A Big Data Cybersecurity Analytics System Based on Trino
 
