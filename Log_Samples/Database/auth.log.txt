@@ -1,0 +1,27 @@
+Sep 14 23:08:01 database sshd[12345]: Failed password for root from 203.0.113.1 port 22 ssh2
+Sep 14 23:08:02 database sshd[12345]: Failed password for admin from 192.168.1.101 port 22 ssh2
+Sep 14 23:08:03 database sshd[12345]: Accepted password for usera from 203.0.113.2 port 22 ssh2
+Sep 14 23:08:04 database sshd[12345]: Failed password for usera from 203.0.113.3 port 22 ssh2
+Sep 14 23:08:05 database sshd[12345]: Accepted password for user3 from 203.0.113.1 port 22 ssh2
+Sep 14 23:08:06 database sshd[12345]: Failed password for root from 192.168.1.103 port 22 ssh2
+Sep 14 23:08:07 database sshd[12345]: Failed password for root from 203.0.113.4 port 22 ssh2
+Sep 14 23:08:08 database sshd[12345]: Failed password for admin from 192.168.1.104 port 22 ssh2
+Sep 14 23:08:09 database sshd[12345]: Failed password for admin from 192.168.1.105 port 22 ssh2
+Sep 14 23:08:10 database sshd[12345]: Failed password for usera from 203.0.113.5 port 22 ssh2
+Sep 14 23:08:11 database sshd[12345]: Failed password for usera from 192.168.1.106 port 22 ssh2
+Sep 14 23:08:12 database sshd[12345]: Failed password for userb from 203.0.113.6 port 22 ssh2
+Sep 14 23:08:13 database sshd[12345]: Failed password for userb from 203.0.113.7 port 22 ssh2
+Sep 14 23:08:14 database sshd[12345]: Failed password for userb from 192.168.1.107 port 22 ssh2
+Sep 14 23:08:15 database sshd[12345]: Failed password for user3 from 192.168.1.108 port 22 ssh2
+Sep 14 23:08:20 database sshd[12345]: Accepted password for user3 from 203.0.113.8 port 22 ssh2
+Sep 14 23:08:25 database sshd[12345]: Accepted password for userTeste from 203.0.113.9 port 22 ssh2
+Sep 14 23:10:01 database CRON[12346]: (root) CMD (command to run a script)
+Sep 14 23:12:05 database sudo: user1 : TTY=pts/1 ; PWD=/home/user1 ; USER=root ; COMMAND=/bin/bash
+Sep 14 23:15:20 database su: pam_unix(su:session): session opened for user user2 by user1(uid=1000)
+Sep 14 23:20:30 database sshd[12347]: Connection closed by 203.0.113.10 port 22
+Sep 14 23:25:40 database sudo: user1 : TTY=pts/2 ; PWD=/home/user1 ; USER=root ; COMMAND=/usr/bin/apt-get update
+Sep 14 23:30:55 database sshd[12348]: Accepted publickey for user1 from 203.0.113.11 port 22 ssh2: RSA SHA256:abcdef123456
+Sep 14 23:35:10 database sshd[12349]: Disconnected from 192.168.1.109 port 22
+Sep 14 23:40:15 database sshd[12350]: Connection reset by peer
+Sep 14 23:45:20 database sudo: pam_unix(sudo:session): session closed for user root
+Sep 14 23:50:25 database sshd[12351]: Accepted password for user4 from 192.168.1.110 port 22 ssh2

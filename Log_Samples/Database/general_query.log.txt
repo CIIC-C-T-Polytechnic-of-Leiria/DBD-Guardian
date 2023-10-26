@@ -1,0 +1,79 @@
+2023-09-15 09:15:05    7 Connect   api_user@10.0.0.5 using TCP/IP on api_db
+2023-09-15 09:15:06    7 Query     SELECT api_key, api_secret FROM api_users WHERE status='active'
+2023-09-15 09:15:06    7 Query     SELECT api_key, api_secret FROM api_users WHERE status='active'
+2023-09-15 09:15:06    7 Query     SELECT api_key, api_secret FROM api_users WHERE status='active'
+2023-09-15 09:15:06    7 Query     SELECT api_key, api_secret FROM api_users WHERE status='active'
+2023-09-15 09:16:10    7 Disconnect
+2023-09-15 09:15:05    7 Connect   api_user@10.0.0.5 using TCP/IP on api_db
+2023-09-15 09:15:06    7 Query     SELECT api_key, api_secret FROM api_users WHERE status='active'
+2023-09-15 09:16:10    7 Disconnect
+2023-09-15 09:15:05    7 Connect   api_user@10.0.0.5 using TCP/IP on api_db
+2023-09-15 12:17:06    7 Query     SELECT api_key, api_secret FROM api_users WHERE status='active'
+2023-09-15 12:20:06    7 Query     SELECT api_key, api_secret FROM api_users WHERE status='active'
+2023-09-15 09:16:10    7 Disconnect
+
+
+2023-09-16 14:32:10    10 Connect   user1@localhost on mydatabase
+2023-09-16 14:32:11    10 Query     SELECT * FROM users WHERE username='jdoe'
+2023-09-16 14:33:15    10 Query     UPDATE products SET stock=stock-1 WHERE product_id=42
+2023-09-16 14:35:17    10 Disconnect
+
+2023-09-05 10:05:30    15 Connect   admin@192.168.1.105 on admin_db
+2023-09-05 10:05:32    15 Query     SHOW TABLES
+2023-09-05 10:05:32    15 Query     SHOW TABLES
+2023-09-05 10:05:32    15 Query     SHOW TABLES
+2023-09-05 10:05:32    15 Query     SHOW TABLES
+2023-09-05 10:06:20    15 Disconnect
+
+2023-09-17 18:20:45    23 Connect   guest@localhost on test_db
+2023-09-17 18:20:50    23 Query     INSERT INTO test_table (name, age) VALUES ('Bob', 32)
+2023-09-17 18:21:00    23 Disconnect
+
+2023-09-17 11:37:45    30 Connect   root@localhost on
+2023-09-17 11:37:46    30 Query     GRANT ALL PRIVILEGES ON mydatabase.* TO 'new_user'@'localhost'
+2023-09-17 11:38:05    30 Query     FLUSH PRIVILEGES
+2023-09-17 11:38:15    30 Disconnect
+
+2023-09-17 12:48:15    33 Connect   backup@192.168.1.120 using TCP/IP on backup_db
+2023-09-17 12:48:20    33 Query     SELECT * FROM backup_tasks WHERE status='pending'
+2023-09-17 12:48:20    33 Query     SELECT * FROM backup_tasks WHERE status='pending'
+2023-09-17 12:48:20    33 Query     SELECT * FROM backup_tasks WHERE status='pending'
+2023-09-17 12:48:20    33 Query     SELECT * FROM backup_tasks WHERE status='pending'
+2023-09-17 12:50:50    33 Disconnect
+
+2023-09-03 13:45:30    40 Connect   analytics@10.0.0.10 on analytics_db
+2023-09-03 13:45:31    40 Query     SELECT SUM(sales) as total_sales FROM monthly_sales WHERE year=2023
+2023-09-03 13:45:31    40 Query     SELECT SUM(sales) as total_sales FROM monthly_sales WHERE year=2023
+2023-09-03 13:45:31    40 Query     SELECT SUM(sales) as total_sales FROM monthly_sales WHERE year=2023
+2023-09-03 13:46:25    40 Disconnect
+
+
+2023-09-17 15:50:00    50 Connect   dev@localhost on dev_db
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:50:01    50 Query     BEGIN; 
+2023-09-17 15:50:05    50 Query     INSERT INTO dev_tests (test_name, result) VALUES ('Test 123', 'Pass')
+2023-09-17 15:51:05    50 Query     COMMIT;
+2023-09-17 15:52:10    50 Disconnect
