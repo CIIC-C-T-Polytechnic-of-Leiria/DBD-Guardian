@@ -9,7 +9,7 @@
 A Big Data Cybersecurity Analytics System Architeture Based on Distributed Big Data Query Engines
 
 <div align="center">
-<img src="assets/mov_region.png" width="1000px"/>
+<img src="assets/EsquemaArqProposta.png" width="1000px"/>
 <p>DBD_Guardian Architeture Proposal</p>
 </div>
 
