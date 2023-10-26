@@ -1,0 +1,68 @@
+[
+  {
+    "identifier": "Webserver",
+    "address": "192.168.1.252",
+    "datasources": [
+      {
+        "name": "Apache Access Log",
+        "path": "/home/jose/logs/access.log",
+        "format": ".txt",
+        "parsingType": "access (apache)"
+      },
+      {
+        "name": "Machine's Auth Log File",
+        "path": "/home/jose/logs/auth.log",
+        "format": ".txt",
+        "parsingType": "auth"
+      },
+      {
+        "name": "Machine's Syslog Log File",
+        "path": "/home/jose/logs/syslog.log",
+        "format": ".txt",
+        "parsingType": "syslog"
+      },
+      {
+        "name": "Firewall Log",
+        "path": "/home/jose/logs/ufw.log",
+        "format": ".txt",
+        "parsingType": "ufw"
+      }
+    ]
+  },
+  {
+    "identifier": "Database",
+    "address": "192.168.1.84",
+    "datasources": [
+      {
+        "name": "Database's Firewall",
+        "path": "/home/jose/logs/ufwb.log",
+        "format": ".txt",
+        "parsingType": "ufw"
+      },
+      {
+        "name": "Database Access Log",
+        "path": "/home/jose/logs/mariadbaccess.log",
+        "format": ".txt",
+        "parsingType": "access (mariadb)"
+      },
+      {
+        "name": "Machine's Syslog Log File",
+        "path": "/home/jose/logs/syslog.log",
+        "format": ".txt",
+        "parsingType": "syslog"
+      },
+      {
+        "name": "Machine's Auth Log File",
+        "path": "/home/jose/logs/authb.log",
+        "format": ".txt",
+        "parsingType": "auth"
+      },
+      {
+        "name": "Database's Genral Query Log",
+        "path": "/home/jose/logs/general.log",
+        "format": ".txt",
+        "parsingType": "general"
+      }
+    ]
+  }
+]

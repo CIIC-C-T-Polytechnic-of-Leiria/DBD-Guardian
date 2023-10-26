@@ -1,0 +1,116 @@
+[
+  {
+    "title": "Which IP addresses were most often blocked?",
+    "query": "SELECT CONCAT('#Address:# ', SUBSTR(to_hex(sha256(CAST(src_ip AS varbinary))), 1, 15),' #Total Detections:# ',  CAST(COUNT(*) AS VARCHAR)) as Result FROM ({parser} FROM storage.txt.\"file://{file}\") as subquery WHERE subquery.value LIKE '%UFW BLOCK%' AND parse_datetime(subquery.log_timestamp, 'yyyy-MMM-dd HH:mm:ss') >= date_add('hour', -24, NOW()) GROUP BY src_ip ORDER BY COUNT(*) DESC LIMIT 5",
+    "description": "Which IP addresses were most often blocked in the last day?",
+    "parse": ["ufw"],
+    "type": "1",
+    "return": "1"
+  },
+  {
+    "title": "Which IP addresses had the highest number of blocked GET requests?",
+    "description": "Which IP addresses had the highest number (10 or more) of blocked GET requests in the last 24 hours?",
+    "query": "SELECT CONCAT('#Address:# ', SUBSTR(to_hex(sha256(CAST(subquery.ip AS varbinary))), 1, 15), ' #Total Detections:# ', CAST(COUNT(*) AS VARCHAR)) as Result FROM ({parser} FROM storage.txt.\"file://{file}\") as subquery WHERE subquery.method = 'GET' AND subquery.status_code = '404' AND date(date_parse(subquery.timestamp, '%d/%b/%Y:%H:%i:%s') AT TIME ZONE 'UTC') >= date_add('day', -1, current_date) GROUP BY subquery.ip HAVING COUNT(*) >= 10 ORDER BY COUNT(*) DESC",
+    "parse": ["access (apache)"],
+    "type": "1",
+    "return": "1"
+  },
+  {
+    "title": "Were there any SQL commands made on the website URL?",
+    "description": "Listing of all SQL Commands registred on the Apache Access Log",
+    "query": "SELECT CONCAT('#Address:# ', SUBSTR(to_hex(sha256(CAST(ip AS varbinary))), 1, 15), ' #URL:# ', url) AS Result FROM ( {parser} FROM storage.txt.\"file://{file}\" ) as subquery WHERE method = 'GET' AND (url LIKE '%UNION%' OR url LIKE '%SELECT%' OR url LIKE '%WHERE%' OR url LIKE '%FROM%' OR url LIKE '%--%')",
+    "parse": ["access (apache)"],
+    "type": "1",
+    "return": "1"
+  },
+  {
+    "title": "Logins done after a POST request",
+    "description": "Listing of Logins made 3 seconds after a POST request",
+    "query": "SELECT DISTINCT CONCAT('#IP:# ', SUBSTR(to_hex(sha256(CAST(a.ip AS varbinary))), 1, 15), ' #Time of Detection:# ', CAST(u.timestamp AS VARCHAR)) AS Result FROM ({parser} FROM storage.txt.\"file://{file}\") u JOIN ({parser1} FROM storage.txt.\"file://{file1}\") a ON (to_unixtime(parse_datetime(a.timestamp, 'dd/MMM/yyyy:HH:mm:ss')) <= to_unixtime(parse_datetime(u.timestamp,'yyyy-MMM-dd HH:mm:ss'))) AND (to_unixtime(parse_datetime(u.timestamp, 'yyyy-MMM-dd HH:mm:ss')) <= to_unixtime(parse_datetime(a.timestamp,'dd/MMM/yyyy:HH:mm:ss'))+3) WHERE a.method = 'POST'",
+    "parse": ["auth", "access (apache)"],
+    "type": "2",
+    "return": "1"
+  },
+
+  {
+    "title": "Failed Login Attempts on the Database",
+    "description": "Most Failed Login Attempts on the Database in the Last 24 Hours",
+    "query": "SELECT CONCAT('#IP:# ', SUBSTR(to_hex(sha256(CAST(ip AS varbinary))), 1, 15), ' #User:# ', SUBSTR(to_hex(sha256(CAST(user AS varbinary))), 1, 15), ' #Total Failed Attempts:# ', CAST(COUNT(*) AS VARCHAR)) AS Result FROM ({parser} FROM storage.txt.\"file://{file}\") WHERE parse_datetime(timestamp, 'yyyy-MM-dd HH:mm:ss') > date_add('hour', -24, NOW()) AND message LIKE '%Access denied%' GROUP BY ip, user ORDER BY COUNT(*) DESC",
+    "parse": ["access (mariadb)"],
+    "type": "1",
+    "return": "1"
+  },
+  {
+    "title": "Requests Made on the Website by the Most Blocked IP Address",
+    "description": "List of the Requests Made on the Website by the Most Blocked IP Address",
+    "query": "WITH most_blocked_ip AS (SELECT src_ip, COUNT(*) AS block_count FROM ({parser} FROM storage.txt.\"file://{file}\") GROUP BY src_ip ORDER BY block_count DESC LIMIT 1) SELECT CONCAT('#IP:# ', SUBSTR(to_hex(sha256(CAST(a.ip AS varbinary))), 1, 15), ' #Method:# ', a.method, ' #URL:# ', a.url) AS Result FROM ({parser1} FROM storage.txt.\"file://{file1}\") a JOIN most_blocked_ip b ON a.ip = b.src_ip",
+    "parse": ["ufw", "access (apache)"],
+    "type": "2",
+    "return": "1"
+  },
+  {
+    "title": "Successful Logins by Most Blocked IP",
+    "description": "List of the Successful Logins made by the Most Blocked IP",
+    "query": "WITH most_blocked_ip AS (SELECT src_ip, COUNT(*) AS block_count FROM ({parser} FROM storage.txt.\"file://{file}\") GROUP BY src_ip ORDER BY block_count DESC LIMIT 1) SELECT CONCAT('#Time:# ', a.timestamp, ' #User:# ',  SUBSTR(to_hex(sha256(CAST(split_part(split_part(a.message, ' for ', 2), ' from ', 1) AS varbinary))), 1, 15)) AS Result FROM ({parser1} FROM storage.txt.\"file://{file1}\") a JOIN most_blocked_ip b ON split_part(split_part(a.message, ' from ', 2), ' port ', 1) = b.src_ip WHERE a.message LIKE 'Accepted password for %'",
+    "parse": ["ufw", "auth"],
+    "type": "2",
+    "return": "1"
+  },
+{
+  "title": "Users With The Most Failed Login Attempts",
+  "description": "Top 5 Users With The Most Failed Login Attempts",
+  "query": "SELECT CONCAT('#User:# ',SUBSTR(to_hex(sha256(CAST(user AS varbinary))), 1, 15), ' #Total Failed Attempts:# ', CAST(failed_attempts AS VARCHAR)) AS Result FROM (SELECT split_part(split_part(a.message, ' for ', 2), ' from ', 1) AS user, COUNT(*) AS failed_attempts FROM ({parser} FROM storage.txt.\"file://{file}\") a WHERE a.message LIKE 'Failed password for %' GROUP BY split_part(split_part(a.message, ' for ', 2), ' from ', 1)) ORDER BY failed_attempts DESC LIMIT 5",
+  "parse": ["auth"],
+  "type": "1",
+  "return": "1"
+},
+{
+  "title": "Users With Failed Login Attempts Across the Network",
+  "description": "Users With Failed Login Attempts in the Last Day Across the Network",
+  "query": "SELECT CONCAT('#User:# ', SUBSTR(to_hex(sha256(CAST(user AS varbinary))), 1, 15), ' #Total Failed Attempts:# ', CAST(failed_attempts AS VARCHAR)) AS Result FROM (SELECT split_part(split_part(a.message, ' for ', 2), ' from ', 1) AS user, COUNT(*) AS failed_attempts FROM ({parser} FROM storage.txt.\"file://{file}\") a WHERE a.message LIKE 'Failed password for %' AND (parse_datetime(a.timestamp, 'yyyy-MMM-dd HH:mm:ss')) >= date_add('hour', -24, NOW()) GROUP BY split_part(split_part(a.message, ' for ', 2), ' from ', 1)) ORDER BY failed_attempts DESC",
+  "parse": ["auth"],
+  "type": "3",
+  "return": "1"
+},
+{
+  "title": "IP Addresses With The Most Requests",
+  "description": "IP Addresses With The Most Requests in the Last Hour on the Firewall",
+  "query": "WITH most_requests AS (SELECT  SUBSTR(to_hex(sha256(CAST(src_ip AS varbinary))), 1, 15) AS transformed_ip, COUNT(*) AS total_requests FROM ({parser} FROM storage.txt.\"file://{file}\") WHERE parse_datetime(log_timestamp, 'yyyy-MMM-dd HH:mm:ss') >= date_add('hour', -1, NOW()) GROUP BY src_ip) SELECT CONCAT('#Address:# ', transformed_ip, ' #Total Requests:# ', CAST(total_requests AS VARCHAR)) as Result FROM most_requests ORDER BY total_requests DESC",
+  "parse": ["ufw"],
+  "type": "3",
+  "return": "1"
+},
+{
+  "title": "Failed Login Attempts Per Hour",
+  "description": "Graph of Failed Login Attempts Per Hour",
+  "query": "SELECT CONCAT('#Hour:# ', CAST(hour AS VARCHAR), ' #Total Failed Attempts:# ', CAST(COUNT(*) AS VARCHAR)) AS Result FROM (SELECT date_trunc('hour', parse_datetime(timestamp, 'yyyy-MMM-dd HH:mm:ss')) AS hour, split_part(split_part(message, ' for ', 2), ' from ', 1) AS user FROM ({parser} FROM storage.txt.\"file://{file}\") a WHERE message LIKE 'Failed password for %') b GROUP BY hour ORDER BY hour ASC",
+  "parse": ["auth"],
+  "type": "3",
+  "return": "2"
+},
+{
+  "title": "Incoming Packets Per Hour",
+  "description": "Graph of Incoming Packets Per Hour",
+  "query": "SELECT CONCAT('#Hour:# ', CAST(hour AS VARCHAR), ' #Total Incoming Packets:# ', CAST(COUNT(*) AS VARCHAR)) AS Result FROM (SELECT date_trunc('hour', parse_datetime(log_timestamp, 'yyyy-MMM-dd HH:mm:ss')) AS hour FROM ({parser} FROM storage.txt.\"file://{file}\") a) b GROUP BY hour ORDER BY hour ASC",
+  "parse": ["ufw"],
+  "type": "3",
+  "return": "2"
+},
+{
+  "title": "Number of Warning/Error Messages in Syslog per Hour",
+  "description": "Graph of the Number of Warning/Error Messages in Syslog per Hour",
+  "query": "SELECT CONCAT('#Hour:# ', CAST(hour AS VARCHAR), ' #Total Warning/Error Messages:# ', CAST(COUNT(*) AS VARCHAR)) AS Result FROM (SELECT date_trunc('hour', parse_datetime(timestamp, 'yyyy-MMM- dd HH:mm:ss')) AS hour FROM ({parser} FROM storage.txt.\"file://{file}\") WHERE lower(message) LIKE '%warning%' OR lower(message) LIKE '%error%') GROUP BY hour ORDER BY hour ASC",
+  "parse": ["syslog"],
+  "type": "3",
+  "return": "2"
+},
+{
+  "title": "Number of requests made to the database per Hour",
+  "description": "Graph of the Number of requests made to the database per Hour",
+  "query": "SELECT CONCAT('#Hour:# ', CAST(hour AS VARCHAR), ' #Total Requests:# ', CAST(COUNT(*) AS VARCHAR)) AS Result FROM (SELECT date_trunc('hour', parse_datetime(timestamp, 'yyyy-MM-dd HH:mm:ss')) AS hour FROM ({parser} FROM storage.txt.\"file://{file}\") WHERE event_type = 'Query') t GROUP BY hour ORDER BY hour ASC",
+  "parse": ["general"],
+  "type": "1",
+  "return": "2"
+}
+
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "parse": "ufw",
+    "query": "SELECT '2023-' || split_part(value, ' ', 1) || '-' || split_part(value, ' ', 2) || ' ' || split_part(value, ' ', 3) AS log_timestamp, substring(value from position('SRC=' in value) + 4 for position(' DST=' in value) - position('SRC=' in value) - 4) AS src_ip, value"
+  },
+  {
+    "parse": "access (apache)",
+    "query": "SELECT split_part(value, ' ', 1) AS ip, substring(value from position('[' in value) + 1 for 20) AS timestamp, regexp_extract(value, '\"(\\S+) ', 1) AS method, regexp_extract(value, ' \"\\S+ (.*?) HTTP', 1) AS url, regexp_extract(value, ' (HTTP/\\d\\.\\d)\"', 1) AS protocol, substring(value from position('\" ' in value) + 2 for 3) AS status_code, split_part(value, '\"', 6) AS user_agent"
+  },
+  {
+    "parse": "auth",
+    "query": "SELECT '2023-' || split_part(value, ' ', 1) || '-' || split_part(value, ' ', 2) || ' ' || split_part(value, ' ', 3) AS timestamp, split_part(value, ' ', 4) AS host, split_part(split_part(value, ' ', 5), '[', 1) AS process, split_part(split_part(value, '[', 2), ']', 1) AS pid, substring(value from position(']: ' in value) + 3) AS message"
+  },
+  {
+    "parse": "syslog",
+    "query": "SELECT '2023-' || split_part(value, ' ', 1) || ' ' || split_part(value, ' ', 2) || ' ' || split_part(value, ' ', 3) AS timestamp, split_part(value, ' ', 4) AS host, split_part(split_part(value, ' ', 5), '[', 1) AS process, split_part(split_part(value, '[', 2), ']', 1) AS pid, substring(value from position(']: ' in value)+3) AS message"
+  },
+  {
+    "parse": "access (mariadb)",
+    "query": "SELECT CONCAT(split_part(value, ' ', 1), ' ', split_part(value, ' ', 2)) AS timestamp, substring(value from position('[' in value) + 1 for 4) AS level, split_part(value, ' ', 4) AS action, split_part(value, ' ', 6) AS ip, split_part(value, ' ', 9) AS port, regexp_extract(value, ': (.*?) for user', 1) AS message, regexp_extract(value, 'for user (.*?) \\(', 1) AS user, split_part(regexp_extract(value, '\\(using password: (.*?)\\)', 1), ' ', 1) AS password_used"
+  },
+  {
+    "parse": "general",
+    "query": "SELECT concat(regexp_extract(value, '^(\\d{4}-\\d{2}-\\d{2})'), ' ', regexp_extract(value, '(\\d{2}:\\d{2}:\\d{2})')) AS timestamp, trim(regexp_extract(value, '\\s(\\d{1,5})\\s')) AS connection_id, regexp_extract(value, 'Connect|Query|Disconnect') AS event_type, trim(regexp_replace(value, '^(\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\s\\d{1,5}\\s(Connect|Query|Disconnect)\\s)', '')) AS message"
+  }
+]
